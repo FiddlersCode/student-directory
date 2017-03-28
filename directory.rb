@@ -27,7 +27,9 @@ end
 
 def print(students)
   students.each_with_index do |student, i|
-    puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    if student[:name][0] == "A"
+      puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
