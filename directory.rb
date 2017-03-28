@@ -26,9 +26,19 @@ def print_header
 end
 
 def print(students)
-  students.each_with_index do |student, i|
-    if student[:name][0] == "A"
-      puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  puts "You can print students whose names begin with a specific letter.  Would you like to?"
+  answer = gets.chomp.downcase
+  if answer == "yes"
+    puts "Which letter would you choose?"
+    letter = gets.chomp.upcase
+    students.each_with_index do |student, i|
+      if student[:name][0] == letter
+        puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      end
+    end
+  else
+    students.each_with_index do |student, i|
+    puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
   end
 end
