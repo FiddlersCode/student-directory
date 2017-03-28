@@ -12,24 +12,24 @@ def input_students
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "Please enter the student's cohort month."
-    cohort = gets.chomp.capitalize
-      while cohort.empty? do
-        puts "You can't move on without adding the student's cohort month."
-        cohort = gets.chomp.capitalize
-      end
+    cohort = gets.chomp.capitalize.to_sym
     puts "Please enter the student's country or planet of birth."
     birth_country = gets.chomp.capitalize
-      while birth_country.empty? do
-        puts "You can't move on without adding the student's contry or planet of birth."
-        birth_country = gets.chomp.capitalize
+    puts "You have entered #{name}, #{cohort} and #{birth_country}."
+    puts ""
+    puts "Are you happy with this?"
+    happy = gets.chomp.downcase
+      if happy == "yes"
+        students << {name: name, cohort: cohort, birth_country: birth_country}
+        if students.count == 1
+          puts "Now we have #{students.count} student.  \nAdd another name or press return to finish."
+        else
+          puts "Now we have #{students.count} students. \nAdd another name or press return to finish."
+        end
+      else
+      name.empty?
+      puts "Please enter the student's name."
       end
-    # add the student has to the array
-    students << {name: name, cohort: cohort, birth_country: birth_country}
-    if students.count == 1
-      puts "Now we have #{students.count} student.  \nAdd another name or press return to finish."
-    else
-      puts "Now we have #{students.count} students. \nAdd another name or press return to finish."
-    end
     # gets another name from the user
     name = gets.chomp.capitalize
   end
