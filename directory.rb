@@ -13,13 +13,23 @@ def input_students
   while !name.empty? do
     puts "Please enter the student's cohort month."
     cohort = gets.chomp.capitalize.to_sym
+      if cohort.empty?
+        puts "Why didn't you enter a cohort month?  We'll assign you to April by default."
+        puts ""
+        cohort = "April"
+      end
+    cohort
     puts "Please enter the student's country or planet of birth."
     birth_country = gets.chomp.capitalize
+      if birth_country.empty?
+        puts "Well, you didn't put anything in so we'll pretend you're Vulcan."
+        birth_country = "Vulcan."
+      end
     puts "You have entered #{name}, #{cohort} and #{birth_country}."
     puts ""
     puts "Are you happy with this?"
     happy = gets.chomp.downcase
-      if happy == "yes"
+      if happy != "no"
         students << {name: name, cohort: cohort, birth_country: birth_country}
         if students.count == 1
           puts "Now we have #{students.count} student.  \nAdd another name or press return to finish."
@@ -46,7 +56,9 @@ def print(students)
   number_of_students = students.count
   n = 0
   while number_of_students > 0
-    puts "Student: #{students[n][:name]}\nCohort: #{students[n][:cohort]}\nCountry of Birth: #{students[n][:birth_country]}"
+    puts "Student: #{students[n][:name]}"
+    puts "Cohort: #{students[n][:cohort]}"
+    puts "Country of Birth: #{students[n][:birth_country]}"
     number_of_students -= 1
     n += 1
   end
