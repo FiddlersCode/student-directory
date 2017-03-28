@@ -13,8 +13,10 @@ def input_students
   while !name.empty? do
     puts "Please enter the student's cohort."
     cohort = gets.chomp.capitalize
+    puts "Please enter the student's country of birth."
+    birth_country = gets.chomp.capitalize
     # add the student has to the array
-    students << {name: name, cohort: cohort}
+    students << {name: name, cohort: cohort, birth_country: birth_country}
     if students.count == 1
       puts "Now we have #{students.count} student.  Add another name or press return to finish."
     else
@@ -37,7 +39,7 @@ def print(students)
   number_of_students = students.count
   n = 0
   while number_of_students > 0
-    puts "Student: #{students[n][:name]}\nCohort: #{students[n][:cohort]}"
+    puts "Student: #{students[n][:name]}\nCohort: #{students[n][:cohort]}\nCountry of Birth:#{students[n][:birth_country]}"
     number_of_students -= 1
     n += 1
   end
