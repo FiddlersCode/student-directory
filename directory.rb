@@ -1,16 +1,18 @@
 def input_students
   puts ""
   puts "Enter the names of the students at Villains Academy."
+  puts ""
   puts "To finish, just hit return twice."
+  puts ""
   # create an empty array
   students = []
   # get the first namename = gets.chomp
   puts "Please enter the student's name."
-  name = gets.chomp
+  name = gets.chomp.capitalize
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "Please enter the student's cohort."
-    cohort = gets.chomp.to_sym
+    cohort = gets.chomp.capitalize
     # add the student has to the array
     students << {name: name, cohort: cohort}
     if students.count == 1
@@ -19,7 +21,7 @@ def input_students
       puts "Now we have #{students.count} students. Add another name or press return to finish."
   end
     # gets another name from the user
-    name = gets.chomp
+    name = gets.chomp.capitalize
   end
   # return the aray of students
   students
@@ -32,20 +34,15 @@ def print_header
 end
 
 def print(students)
-  puts "You can print students with fewer than 12 characters in their name.  Would you like to?"
-  answer = gets.chomp.downcase
-  if answer == "yes"
-    students.each_with_index do |student, i|
-      if student[:name].to_s.length < 12
-        puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
-      end
-    end
-  else
-    students.each_with_index do |student, i|
-    puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
-    end
+  number_of_students = students.count
+  n = 0
+  while number_of_students > 0
+    puts "Student: #{students[n][:name]}\nCohort: #{students[n][:cohort]}"
+    number_of_students -= 1
+    n += 1
   end
 end
+
 
 def print_footer(names)
   if names.count == 0
