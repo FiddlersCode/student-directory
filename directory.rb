@@ -53,15 +53,15 @@ def print_header
 end
 
 def print(students)
-  number_of_students = students.count
-  n = 0
-  while number_of_students > 0
-    puts "Student: #{students[n][:name]}"
-    puts "Cohort: #{students[n][:cohort]}"
-    puts "Country of Birth: #{students[n][:birth_country]}"
-    number_of_students -= 1
-    n += 1
-  end
+  # print students by cohort
+  puts "Which cohort month would you like to see the students from?"
+  selected_cohort = gets.chomp.capitalize.to_sym
+    students.each do |student|
+      if student[:cohort] == selected_cohort
+        puts "#{student[:name]} (#{student[:cohort]} cohort) #{{student[:birth_country]}}"
+      end
+    end
+
 end
 
 def print_footer(names)
