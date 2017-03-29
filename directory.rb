@@ -5,21 +5,45 @@ def input_students
   puts "To finish, just hit return twice."
   puts ""
   # create an empty array
-  students = [
-   {name: "Dr. Hannibal Lecter", cohort: :january},
-   {name: "Darth Vader", cohort: :december},
-   {name: "Nurse Ratched", cohort: :march},
-   {name: "Michael Corleone", cohort: :april},
-   {name: "Alex DeLarge", cohort: :march},
-   {name: "The Wicked Witch of the West", cohort: :january},
-   {name: "Terminator", cohort: :july},
-   {name: "Freddy Krueger", cohort: :january},
-   {name: "The Joker", cohort: :december},
-   {name: "Joffrey Baratheon", cohort: :march},
-   {name: "Norman Bates", cohort: :november},
-   {name: "Loki", cohort: :december}
- ]
-
+  students = []
+  # get the first namename = gets.chomp
+  puts "Please enter the student's name."
+  name = gets.chomp.capitalize
+  # while the name is not empty, repeat this code
+  while !name.empty? do
+    puts "Please enter the student's cohort month."
+    cohort = gets.chomp.capitalize.to_sym
+      if cohort.empty?
+        puts "Why didn't you enter a cohort month?  We'll assign you to April by default."
+        puts ""
+        cohort = "April"
+      end
+    cohort
+    puts "Please enter the student's country or planet of birth."
+    birth_country = gets.chomp.capitalize
+      if birth_country.empty?
+        puts "Well, you didn't put anything in so we'll pretend you're Vulcan."
+        birth_country = "Vulcan."
+      end
+    puts "You have entered #{name}, #{cohort} and #{birth_country}."
+    puts ""
+    puts "Are you happy with this?"
+    happy = gets.chomp.downcase
+      if happy != "no"
+        students << {name: name, cohort: cohort, birth_country: birth_country}
+        if students.count == 1
+          puts "Now we have #{students.count} student.  \nAdd another name or press return to finish."
+        else
+          puts "Now we have #{students.count} students. \nAdd another name or press return to finish."
+        end
+      else
+      name.empty?
+      puts "Please enter the student's name."
+      end
+    # gets another name from the user
+    name = gets.chomp.capitalize
+  end
+  students
 end
 
  # and then print them
@@ -31,21 +55,10 @@ def print_header(students)
 end
 
 def print(students)
-  # print students by cohort
-  cohorts_found = students.map {|student| student[:cohort]}
-  puts cohorts_found.uniq
-  counter = students.length
-  n = 0
-  while counter > 0
-    if #the value of cohort in a hash == the nth iteration of the cohorts_found puts 
-
-    end
-      n += 1
-      counter -= 1
+  students.each do |student|
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
-
 end
-
 
 def print_footer(names)
   if names.count == 0
@@ -57,8 +70,33 @@ def print_footer(names)
   end
 end
 
+def interactive_menu
+  students = []
+  loop do
+    # print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students."
+    puts "9. Exit"
+    # read the input and save it into a variable
+    selection = gets.chomp
+    case selection
+    when "1"
+      # input the students
+      students = input_students
+    when "2"
+      # show the students
+      print_header(students)
+      print(students)
+      print_footer(students)
+    when "9"
+      exit # this will terminate the program
+    else
+      puts "I don't know what youmeant, try again!"
+    end
+    # do what the user has asked
+  end
+
+end
+
 # first, we print the list of students
-students = input_students
-print_header(students)
-print(students)
-print_footer(students)
+interactive_menu
