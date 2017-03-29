@@ -1,3 +1,4 @@
+@students = []
 def input_students
   puts ""
   puts "Enter the names of the students at Villains Academy."
@@ -47,15 +48,15 @@ def input_students
 end
 
  # and then print them
-def print_header(students)
-  if students.length > 0
+def print_header
+  if @students.length > 0
     puts "The students of Villains Academy"
     puts "----------"
   end
 end
 
-def print(students)
-  students.each do |student|
+def print
+  @students.each do |student|
     puts "#{student[:name]} (#{student[:cohort]} cohort, from #{student[:birth_country]})"
   end
 end
@@ -70,24 +71,31 @@ def print_footer(names)
   end
 end
 
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students."
+  puts "9. Exit"
+end
+
+def show_students
+  print_header
+  print
+  print_footer(@students)
+end
+
 def interactive_menu
-  students = []
   loop do
     # print the menu and ask the user what to do
-    puts "1. Input the students"
-    puts "2. Show the students."
-    puts "9. Exit"
+    print_menu
     # read the input and save it into a variable
     selection = gets.chomp
     case selection
     when "1"
       # input the students
-      students = input_students
+      @students = input_students
     when "2"
       # show the students
-      print_header(students)
-      print(students)
-      print_footer(students)
+    show_students
     when "9"
       exit # this will terminate the program
     else
