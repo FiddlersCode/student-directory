@@ -58,7 +58,7 @@ def print(students)
   selected_cohort = gets.chomp.capitalize.to_sym
     students.each do |student|
       if student[:cohort] == selected_cohort
-        puts "#{student[:name]} (#{student[:cohort]} cohort) #{{student[:birth_country]}}"
+        puts "#{student[:name]} (#{student[:cohort]} cohort) #{student[:birth_country]}"
       end
     end
 
