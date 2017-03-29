@@ -47,21 +47,18 @@ def input_students
 end
 
  # and then print them
-def print_header
-  puts "The students of Villains Academy"
-  puts "----------"
+def print_header(students)
+  if students.length > 0
+    puts "The students of Villains Academy"
+    puts "----------"
+  end
 end
 
 def print(students)
   # print students by cohort
-  puts "Which cohort month would you like to see the students from?"
-  selected_cohort = gets.chomp.capitalize.to_sym
-    students.each do |student|
-      if student[:cohort] == selected_cohort
-        puts "#{student[:name]} (#{student[:cohort]} cohort) #{student[:birth_country]}"
-      end
-    end
-
+  cohorts_found = []
+  students.map { |hash| hash.map {|key, value| cohorts_found << value } }
+  puts cohorts_found
 end
 
 def print_footer(names)
@@ -76,6 +73,6 @@ end
 
 # first, we print the list of students
 students = input_students
-print_header
+print_header(students)
 print(students)
 print_footer(students)
