@@ -56,7 +56,7 @@ end
 
 def print(students)
   students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{student[:name]} (#{student[:cohort]} cohort, from #{student[:birth_country]})"
   end
 end
 
@@ -91,7 +91,7 @@ def interactive_menu
     when "9"
       exit # this will terminate the program
     else
-      puts "I don't know what youmeant, try again!"
+      puts "I don't know what you meant, try again!"
     end
     # do what the user has asked
   end
