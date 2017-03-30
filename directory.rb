@@ -15,20 +15,20 @@ end
 def process(selection)
   case selection
   when "1"
-    # input the students
     @students = input_students
   when "2"
-  show_students
+    show_students
   when "3"
-  save_students
+    save_students
   when "4"
-  load_students
+    load_students
   when "9"
     exit # this will terminate the program
   else
     puts "I don't know what you meant, try again!"
   end
 end
+
 
 def input_birth_country
   puts "Please enter the student's country or planet of birth."
@@ -67,6 +67,7 @@ def input_students
     @name = STDIN.gets.chomp.capitalize
   end
   @students
+  puts "Don't forget to save the students on the next menu!"
 end
 
 def add_students
@@ -111,6 +112,7 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "Your students have been saved."
 end
 
 def load_students(filename = "students.csv")
@@ -120,6 +122,7 @@ def load_students(filename = "students.csv")
     add_students
   end
   file.close
+  puts "Your students have been loaded."
 end
 
 def try_load_students
