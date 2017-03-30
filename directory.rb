@@ -103,14 +103,14 @@ end
 
 def save_students
   puts "Which file would you like to save the students to?"
-  file = File.open(STDIN.gets.chomp, "w")
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort], student[:birth_country]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  file = File.open(STDIN.gets.chomp, "w") do|file|
+    # iterate over the array of students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort], student[:birth_country]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
 end
 
 def load_students
