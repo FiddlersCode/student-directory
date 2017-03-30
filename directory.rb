@@ -103,7 +103,7 @@ end
 
 def save_students
   puts "Which file would you like to save the students to?"
-  file = File.open(STDIN.gets.chomp, "w") do|file|
+  file = File.open(STDIN.gets.chomp, "w") do |file|
     # iterate over the array of students
     @students.each do |student|
       student_data = [student[:name], student[:cohort], student[:birth_country]]
@@ -115,12 +115,12 @@ end
 
 def load_students
   puts "Which file would you like to load the students from?"
-  file = File.open(STDIN.gets.chomp, "r")
-  file.readlines.each do |line|
-    @name, @cohort, @birth_country = line.chomp.split(',')
-    add_students
+  file = File.open(STDIN.gets.chomp, "r") do |file|
+    file.readlines.each do |line|
+      @name, @cohort, @birth_country = line.chomp.split(',')
+      add_students
+    end
   end
-  file.close
 end
 
 def try_load_students
