@@ -9,11 +9,7 @@ def interactive_menu
 end
 
 def print_menu
-  puts "1. Input the students"
-  puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
-  puts "9. Exit"
+  puts "1. Input the students\n2. Show the students\n3. Save the list to students.csv\n4. Load the list from students.csv\n9. Exit"
 end
 
 def process(selection)
@@ -34,32 +30,28 @@ def process(selection)
   end
 end
 
+def input_birth_country
+  puts "Please enter the student's country or planet of birth."
+  @birth_country = STDIN.gets.chomp.capitalize
+    if @birth_country.empty?
+      puts "Well, you didn't put anything in so we'll pretend you're Vulcan."
+      @birth_country = "Vulcan"
+    end
+end
+
 def input_students
-  puts ""
-  puts "Enter the names of the students at Villains Academy."
-  puts ""
-  puts "To finish, just hit return twice."
-  puts ""
-  puts "Please enter the student's name."
+  puts "\nEnter the names of the students at Villains Academy.\n\nTo finish, hit return twice.\n\nPlease enter the student's name."
   @name = STDIN.gets.chomp.capitalize
   while !@name.empty? do
     puts "Please enter the student's cohort month."
     @cohort = STDIN.gets.chomp.capitalize.to_sym
       if @cohort.empty?
-        puts "Why didn't you enter a cohort month?  We'll assign you to April by default."
-        puts ""
+        puts "Why didn't you enter a cohort month?  We'll assign you to April by default.\n"
         @cohort = "April"
       end
     @cohort
-    puts "Please enter the student's country or planet of birth."
-    @birth_country = STDIN.gets.chomp.capitalize
-      if @birth_country.empty?
-        puts "Well, you didn't put anything in so we'll pretend you're Vulcan."
-        @birth_country = "Vulcan"
-      end
-    puts "You have entered #{@name}, #{@cohort} and #{@birth_country}."
-    puts ""
-    puts "Are you happy with this?"
+    input_birth_country
+    puts "You have entered #{@name}, #{@cohort} and #{@birth_country}.\n\nAre you happy with this?"
     happy = STDIN.gets.chomp.downcase
       if happy != "no"
         add_students
@@ -72,14 +64,13 @@ def input_students
       @name.empty?
       puts "Please enter the student's name."
       end
-    # STDIN.gets another name from the user
     @name = STDIN.gets.chomp.capitalize
   end
   @students
 end
 
 def add_students
-  @students << {name: @name, cohort: @cohort, birth_country: @birth_country}
+  @students << {name: @name, cohort: @cohort.to_sym, birth_country: @birth_country}
 end
 
 def show_students
@@ -90,8 +81,7 @@ end
 
 def print_header
   if @students.length > 0
-    puts "The students of Villains Academy"
-    puts "----------"
+    puts "The students of Villains Academy\n----------"
   end
 end
 
