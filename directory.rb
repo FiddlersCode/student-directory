@@ -1,7 +1,7 @@
 @students = []
 
 def interactive_menu
-  load_students
+  try_load_students
   loop do
     print_menu
     process(STDIN.gets.chomp)
@@ -123,10 +123,20 @@ def load_students
   end
 end
 
+def load_default_file
+  file = File.open("students.csv", "r") do |file|
+    file.readlines.each do |line|
+      @name, @cohort, @birth_country = line.chomp.split(',')
+      add_students
+    end
+  end
+end
+
 def try_load_students
   filename = ARGV.first # first argument from the command line
-  return if filename.nil? # get out of the method if it isn't given
-  if File.exists?(filename)
+  if ARGV.empty?
+    load_default_file# get out of the method if it isn't given
+  elsif File.exists?(filename)
     load_students(filename)
   else
     puts "Sorry, #{filename} doesn't exist."
