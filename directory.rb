@@ -9,26 +9,26 @@ def interactive_menu
 end
 
 def print_menu
-  puts "1. Input the students\n2. Show the students\n3. Save the list to students.csv\n4. Load the list from students.csv\n9. Exit"
+  puts "1. Input the students\n2. Show the students\n3. Save the list of students.\n4. Load the list of students.\n9. Exit"
 end
 
 def process(selection)
   case selection
   when "1"
+    # input the students
     @students = input_students
   when "2"
-    show_students
+  show_students
   when "3"
-    save_students
+  save_students
   when "4"
-    load_students
+  load_students
   when "9"
     exit # this will terminate the program
   else
     puts "I don't know what you meant, try again!"
   end
 end
-
 
 def input_birth_country
   puts "Please enter the student's country or planet of birth."
@@ -41,12 +41,12 @@ end
 
 def input_students
   puts "\nEnter the names of the students at Villains Academy.\n\nTo finish, hit return twice.\n\nPlease enter the student's name."
-  @name = STDIN.gets.chomp.capitalize
+  @name = STDIN.gets.chomp
   while !@name.empty? do
     puts "Please enter the student's cohort month."
     @cohort = STDIN.gets.chomp.capitalize.to_sym
       if @cohort.empty?
-        puts "Why didn't you enter a cohort month?  We'll assign you to April by default.\n"
+        puts "No cohort entered.  We'll assign you to April by default.\n"
         @cohort = "April"
       end
     @cohort
@@ -64,10 +64,9 @@ def input_students
       @name.empty?
       puts "Please enter the student's name."
       end
-    @name = STDIN.gets.chomp.capitalize
+    @name = STDIN.gets.chomp
   end
   @students
-  puts "Don't forget to save the students on the next menu!"
 end
 
 def add_students
@@ -103,8 +102,8 @@ def print_footer(names)
 end
 
 def save_students
-  # open the file for writing
-  file = File.open("students.csv", "w")
+  puts "Which file would you like to save the students to?"
+  file = File.open(STDIN.gets.chomp, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort], student[:birth_country]]
@@ -112,17 +111,16 @@ def save_students
     file.puts csv_line
   end
   file.close
-  puts "Your students have been saved."
 end
 
-def load_students(filename = "students.csv")
-  file = File.open("students.csv", "r")
+def load_students
+  puts "Which file would you like to load the students from?"
+  file = File.open(STDIN.gets.chomp, "r")
   file.readlines.each do |line|
     @name, @cohort, @birth_country = line.chomp.split(',')
     add_students
   end
   file.close
-  puts "Your students have been loaded."
 end
 
 def try_load_students
