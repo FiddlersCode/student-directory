@@ -1,6 +1,7 @@
 @students = []
 
 def interactive_menu
+  load_students
   loop do
     print_menu
     process(STDIN.gets.chomp)
