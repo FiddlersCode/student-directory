@@ -40,41 +40,45 @@ def input_students
   puts "To finish, just hit return twice."
   puts ""
   puts "Please enter the student's name."
-  name = STDIN.gets.chomp.capitalize
-  while !name.empty? do
+  @name = STDIN.gets.chomp.capitalize
+  while !@name.empty? do
     puts "Please enter the student's cohort month."
-    cohort = STDIN.gets.chomp.capitalize.to_sym
-      if cohort.empty?
+    @cohort = STDIN.gets.chomp.capitalize.to_sym
+      if @cohort.empty?
         puts "Why didn't you enter a cohort month?  We'll assign you to April by default."
         puts ""
-        cohort = "April"
+        @cohort = "April"
       end
-    cohort
+    @cohort
     puts "Please enter the student's country or planet of birth."
-    birth_country = STDIN.gets.chomp.capitalize
-      if birth_country.empty?
+    @birth_country = STDIN.gets.chomp.capitalize
+      if @birth_country.empty?
         puts "Well, you didn't put anything in so we'll pretend you're Vulcan."
-        birth_country = "Vulcan."
+        @birth_country = "Vulcan"
       end
-    puts "You have entered #{name}, #{cohort} and #{birth_country}."
+    puts "You have entered #{@name}, #{@cohort} and #{@birth_country}."
     puts ""
     puts "Are you happy with this?"
     happy = STDIN.gets.chomp.downcase
       if happy != "no"
-        @students << {name: name, cohort: cohort, birth_country: birth_country}
+        add_students
         if @students.count == 1
           puts "Now we have #{@students.count} student.  \nAdd another name or press return to finish."
         else
           puts "Now we have #{@students.count} students. \nAdd another name or press return to finish."
         end
       else
-      name.empty?
+      @name.empty?
       puts "Please enter the student's name."
       end
     # STDIN.gets another name from the user
-    name = STDIN.gets.chomp.capitalize
+    @name = STDIN.gets.chomp.capitalize
   end
   @students
+end
+
+def add_students
+  @students << {name: @name, cohort: @cohort, birth_country: @birth_country}
 end
 
 def show_students
@@ -121,8 +125,8 @@ end
 def load_students(filename = "students.csv")
   file = File.open("students.csv", "r")
   file.readlines.each do |line|
-    name, cohort, birth_country = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
+    @name, @cohort, @birth_country = line.chomp.split(',')
+    add_students
   end
   file.close
 end
