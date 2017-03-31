@@ -1,47 +1,95 @@
-def input_students
-  puts ""
-  puts "Enter the names of the students at Villains Academy."
-  puts ""
-  puts "To finish, just hit return twice."
-  puts ""
-  # create an empty array
-  students = [
-   {name: "Dr. Hannibal Lecter", cohort: :january},
-   {name: "Darth Vader", cohort: :december},
-   {name: "Nurse Ratched", cohort: :march},
-   {name: "Michael Corleone", cohort: :april},
-   {name: "Alex DeLarge", cohort: :march},
-   {name: "The Wicked Witch of the West", cohort: :january},
-   {name: "Terminator", cohort: :july},
-   {name: "Freddy Krueger", cohort: :january},
-   {name: "The Joker", cohort: :december},
-   {name: "Joffrey Baratheon", cohort: :march},
-   {name: "Norman Bates", cohort: :november},
-   {name: "Loki", cohort: :december}
- ]
+@students = []
 
-end
-
- # and then print them
-def print_header(students)
-  if students.length > 0
-    puts "The students of Villains Academy"
-    puts "----------"
+def interactive_menu
+  try_load_students
+  loop do
+    print_menu
+    process(STDIN.gets.chomp)
   end
 end
 
-def print(students)
-  # print students by cohort
-  puts list_by_month = students.group_by {|input| input[:cohort]}
-  puts "\nStudents listed by cohort:\n"
-    list_by_month.map do | key, value|
-      puts "\n#{key}"
-        for i in 0...value.length do
-        puts "#{value[i][:name]}, #{value[i][:country]}"
-        end
+def print_menu
+  puts "1. Input the students\n2. Show the students\n3. Save the list of students.\n4. Load the list of students.\n9. Exit"
+end
+
+def process(selection)
+  case selection
+  when "1"
+    # input the students
+    @students = input_students
+  when "2"
+  show_students
+  when "3"
+  save_students
+  when "4"
+  load_students
+  when "9"
+    exit # this will terminate the program
+  else
+    puts "I don't know what you meant, try again!"
+  end
+end
+
+def input_birth_country
+  puts "Please enter the student's country or planet of birth."
+  @birth_country = STDIN.gets.chomp.capitalize
+    if @birth_country.empty?
+      puts "Well, you didn't put anything in so we'll pretend you're Vulcan."
+      @birth_country = "Vulcan"
     end
 end
 
+def input_students
+  puts "\nEnter the names of the students at Villains Academy.\n\nTo finish, hit return twice.\n\nPlease enter the student's name."
+  @name = STDIN.gets.chomp
+  while !@name.empty? do
+    puts "Please enter the student's cohort month."
+    @cohort = STDIN.gets.chomp.capitalize.to_sym
+      if @cohort.empty?
+        puts "No cohort entered.  We'll assign you to April by default.\n"
+        @cohort = "April"
+      end
+    @cohort
+    input_birth_country
+    puts "You have entered #{@name}, #{@cohort} and #{@birth_country}.\n\nAre you happy with this?"
+    happy = STDIN.gets.chomp.downcase
+      if happy != "no"
+        add_students
+        if @students.count == 1
+          puts "Now we have #{@students.count} student.  \nAdd another name or press return to finish."
+        else
+          puts "Now we have #{@students.count} students. \nAdd another name or press return to finish."
+        end
+      else
+      @name.empty?
+      puts "Please enter the student's name."
+      end
+    @name = STDIN.gets.chomp
+  end
+  @students
+end
+
+def add_students
+  @students << {name: @name, cohort: @cohort.to_sym, birth_country: @birth_country}
+end
+
+def show_students
+  print_header
+  print_students_list
+  print_footer(@students)
+end
+
+def print_header
+  if @students.length > 0
+    puts "The students of Villains Academy\n----------"
+  end
+end
+
+def print_students_list
+  @students.each do |student|
+    puts "#{student[:name]} (#{student[:cohort]} cohort, from #{student[:birth_country]})"
+  end
+end
 
 def print_footer(names)
   if names.count == 0
@@ -53,8 +101,46 @@ def print_footer(names)
   end
 end
 
-# first, we print the list of students
-students = input_students
-print_header(students)
-print(students)
-print_footer(students)
+def save_students
+  puts "Which file would you like to save the students to?"
+  file = File.open(STDIN.gets.chomp, "w") do |file|
+    # iterate over the array of students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort], student[:birth_country]]
+      file << csv_line = student_data.join(",")
+    end
+  end
+end
+
+def load_students
+  puts "Which file would you like to load the students from?"
+  file = File.open(STDIN.gets.chomp, "r") do |file|
+    file.readlines.each do |line|
+      @name, @cohort, @birth_country = line.chomp.split(',')
+      add_students
+    end
+  end
+end
+
+def load_default_file
+  file = File.open("students.csv", "r") do |file|
+    file.readlines.each do |line|
+      @name, @cohort, @birth_country = line.chomp.split(',')
+      add_students
+    end
+  end
+end
+
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  if ARGV.empty?
+    load_default_file# get out of the method if it isn't given
+  elsif File.exists?(filename)
+    load_students(filename)
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
+
+interactive_menu
