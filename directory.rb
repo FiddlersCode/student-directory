@@ -32,22 +32,14 @@ end
 
 def print(students)
   # print students by cohort
-  cohorts_found = students.map {|student| student[:cohort]}
-  cohorts_found = cohorts_found.uniq
-  counter = students.length
-  puts counter
-  n = 0
-  while counter > 0
-    students.each do | hash |
-      hash.each do |key, value|
-        if value == cohorts_found[n]
-          puts "#{students[n][:name]} (#{students[n][:cohort]} cohort)"
-          n += 1
-          counter -= 1
+  puts list_by_month = students.group_by {|input| input[:cohort]}
+  puts "\nStudents listed by cohort:\n"
+    list_by_month.map do | key, value|
+      puts "\n#{key}"
+        for i in 0...value.length do
+        puts "#{value[i][:name]}, #{value[i][:country]}"
         end
-      end
     end
-  end
 end
 
 
