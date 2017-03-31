@@ -1,3 +1,5 @@
+puts source_code = <<'HEREDOC'
+
 @students = []
 
 def interactive_menu
@@ -144,3 +146,4 @@ def try_load_students
 end
 
 interactive_menu
+HEREDOC
